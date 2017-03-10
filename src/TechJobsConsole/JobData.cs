@@ -54,7 +54,7 @@ namespace TechJobsConsole
                     //string.Equals(pair.Value, value, StringComparison.OrdinalIgnoreCase)
                     //Match match = Regex.Match(pair.Value, value, RegexOptions.IgnoreCase);
                     
-                    if (pair.Value.ToLower() == value.ToLower())
+                    if (pair.Value.ToLower().Contains(value.ToLower()))
                     {
                         jobs.Add(row);
                     }
@@ -81,7 +81,7 @@ namespace TechJobsConsole
                 string aValue = row[column];
                 //Match match = Regex.Match(aValue, value, RegexOptions.IgnoreCase);
                 
-                    if (aValue.ToLower() == value.ToLower())
+                    if (aValue.ToLower().Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
