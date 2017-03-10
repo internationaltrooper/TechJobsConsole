@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TechJobsConsole
 {
@@ -38,23 +41,56 @@ namespace TechJobsConsole
             return values;
         }
 
-        public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
+        public static List<Dictionary<string, string>> FindByValue(string value)
         {
-            // load data, if not already loaded
             LoadData();
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
 
             foreach (Dictionary<string, string> row in AllJobs)
             {
-                string aValue = row[column];
+                foreach (KeyValuePair<string, string> pair in row)
+                {
+                    //string.Equals(pair.Value, value, StringComparison.OrdinalIgnoreCase)
+                    //Match match = Regex.Match(pair.Value, value, RegexOptions.IgnoreCase);
+                    
+                    if (pair.Value.ToLower() == value.ToLower())
+                    {
+                        jobs.Add(row);
+                    }
+                }
+            }
+            if (!jobs.Any())
+            {
+                Console.WriteLine("*****");
+                Console.WriteLine("No Records Found!");
+            }
 
-                if (aValue.Contains(value))
+            return jobs;
+        }
+
+        public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
+        {
+            // load data, if not already loaded
+            LoadData();
+
+                List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> row in AllJobs)
+            {
+                string aValue = row[column];
+                //Match match = Regex.Match(aValue, value, RegexOptions.IgnoreCase);
+                
+                    if (aValue.ToLower() == value.ToLower())
                 {
                     jobs.Add(row);
                 }
             }
-
+            if (!jobs.Any())
+            {
+                Console.WriteLine("*****");
+                Console.WriteLine("No Records Found!");
+            }
             return jobs;
         }
 
